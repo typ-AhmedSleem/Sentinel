@@ -10,7 +10,7 @@ object NotificationsInterceptor {
     )
     val notifications = _notifications.asSharedFlow()
 
-    fun intercept(notification: InterceptedNotification) {
+    fun emitInterception(notification: InterceptedNotification) {
         _notifications.tryEmit(notification)
     }
 }
