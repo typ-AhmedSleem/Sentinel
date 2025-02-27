@@ -1,6 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -37,6 +38,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.startup.runtime)
+            implementation(libs.generativeai)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -70,6 +72,15 @@ kotlin {
     }
 }
 
+// * Load the local.properties file
+val localProperties = rootProject.file("local.properties")
+val properties = Properties().apply {
+    load(localProperties.inputStream())
+}
+
+// Get the API key
+val geminiApiKey: String = properties.getProperty("GEMINI_API_KEY", "")
+
 android {
     namespace = "com.typ.sentinel"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -80,6 +91,7 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
     }
     packaging {
         resources {
@@ -94,6 +106,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    buildFeatures {
+        buildConfig = true
+        compose = true
     }
 }
 

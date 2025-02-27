@@ -42,6 +42,7 @@ sqlDelight = "2.0.2"
 kmputils = "1.4.2"
 sqlite = "2.5.0-alpha07"
 testng = "6.9.6"
+generativeai = "0.2.2"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -88,6 +89,7 @@ sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sql
 testng = { group = "org.testng", name = "testng", version.ref = "testng" }
 cupertino = { module = "io.github.alexzhirkevich:cupertino", version.ref = "cupertino" }
 cupertino-icons-extended = { module = "io.github.alexzhirkevich:cupertino-icons-extended", version.ref = "cupertino" }
+generativeai = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "generativeai" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
