@@ -19,7 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.typ.sentinel.systems.ai.client.createRiskAnalysisPrompt
+import com.typ.sentinel.systems.ai.client.GeminiPromptsFactory.createRiskAnalysisPrompt
 import com.typ.sentinel.systems.ai.engines.GenerativeEngine
 import com.typ.sentinel.systems.nis.InterceptedNotification
 import com.typ.sentinel.systems.nis.NotificationsInterceptor
@@ -58,41 +58,19 @@ fun App() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
             ) {
-                /* CupertinoText(
-                     textAlign = TextAlign.Center,
-                     modifier = Modifier.fillMaxWidth(),
-                     text = latestNotification?.toString() ?: "No notifications yet!"
-                 )*/
+                CupertinoText(
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                    text = latestNotification?.toString() ?: "No notifications yet!"
+                )
 
                 CupertinoHorizontalDivider()
 
                 CupertinoText(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth(),
-                    text = geminiResponse ?: "NO RESPONSE YET"
+                    text = geminiResponse ?: "CLICK THE BUTTON BELOW"
                 )
-
-                CupertinoButton(
-                    onClick = {
-                        coroutineScope.launch {
-                            latestNotification?.let {
-                                geminiResponse = "[THINKING....]"
-                                geminiResponse = genEngine.generateFromPrompt(
-                                    createRiskAnalysisPrompt(
-                                        language = "arabic",
-                                        notification = InterceptedNotification(
-                                            title = "01029787124",
-                                            content = " تهانينا! لقد تم اختيارك للحصول على قرض فوري بقيمة 100,000 جنيه بدون فوائد. سجل بياناتك الآن عبر: [loanservice.co](https://loanservice.co)",
-                                        )
-                                    )
-                                )
-                                    .also(logger::log)
-                            }
-                        }
-                    },
-                ) {
-                    Text("Ask in Arabic")
-                }
 
                 CupertinoButton(
                     onClick = {
@@ -101,11 +79,8 @@ fun App() {
                                 geminiResponse = "[THINKING....]"
                                 geminiResponse = genEngine.generateFromPrompt(
                                     createRiskAnalysisPrompt(
-                                        language = "english",
-                                        notification = InterceptedNotification(
-                                            title = "BanK-AlAhly",
-                                            content = "Your direct deposit of \$1,200 has been successfully processed into your account ending in 4567. Available balance: \$3,456.78.",
-                                        )
+                                        language = "arabic",
+                                        notification = notification
                                     )
                                 )
                                     .also(logger::log)
@@ -113,7 +88,7 @@ fun App() {
                         }
                     },
                 ) {
-                    Text("Ask in English")
+                    Text("Analyze notification")
                 }
 
             }
