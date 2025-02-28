@@ -3,7 +3,7 @@ package com.typ.sentinel.systems.ai.engines
 import com.typ.sentinel.systems.ai.client.AIClient
 import com.typ.sentinel.systems.ai.client.GeminiPrompt
 
-abstract class AIEngine(private val client: AIClient) {
+abstract class AIEngine(internal val client: AIClient) {
 
     /**
      * Generates a response based on the given prompt.
