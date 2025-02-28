@@ -29,7 +29,7 @@ object GeminiPromptsFactory {
         - Explain why you classified the message that way.
         - Extract keywords or suspicious elements.
         - Detect any **patterns** like links, financial terms, or phishing attempts.
-        - Suggest recommended actions and shouldn't be outside of ("mark_as_safe", "report", "ask_ai").
+        - Suggest actions and shouldn't be outside of ("mark_as_safe", "report", "ask_ai").
         - Provide all the output in this language: $language
 
         🔹 **Response Object Schema (JSON)**:
@@ -44,9 +44,9 @@ object GeminiPromptsFactory {
             "sender": "SENDER_INFO",
             "language": "LANGUAGE",
             "detected_patterns": ["PATTERN1", "PATTERN2", ...],
-            "recommended_actions": ["ACTION1", "ACTION2", ...],
-            "detectedPatterns": ["PATTERN1", "PATTERN2", ...],
-            "suspiciousElements": ["ELEMENT1", "ELEMENT2", ...],
+            "suggested_actions": ["ACTION1", "ACTION2", ...],
+            "detected_patterns": ["PATTERN1", "PATTERN2", ...],
+            "suspicious_elements": ["ELEMENT1", "ELEMENT2", ...],
         }
 
         Please return **only the JSON response** without any additional text.

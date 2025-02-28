@@ -19,10 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.typ.sentinel.systems.ai.client.GeminiPromptsFactory.createRiskAnalysisPrompt
 import com.typ.sentinel.systems.ai.engines.GenerativeEngine
 import com.typ.sentinel.systems.nis.InterceptedNotification
 import com.typ.sentinel.systems.nis.NotificationsInterceptor
+import com.typ.sentinel.systems.rae.GeminiRiskAnalysisEngine
 import io.github.alexzhirkevich.cupertino.CupertinoButton
 import io.github.alexzhirkevich.cupertino.CupertinoHorizontalDivider
 import io.github.alexzhirkevich.cupertino.CupertinoScaffold
@@ -38,7 +38,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     val logger = Logger("App")
-    val genEngine = GenerativeEngine()
+    val riskAnalysisEngine = GeminiRiskAnalysisEngine(GenerativeEngine())
     val coroutineScope = rememberCoroutineScope()
     var latestNotification: InterceptedNotification? by remember { mutableStateOf(null) }
     LaunchedEffect(Unit) {
@@ -77,12 +77,10 @@ fun App() {
                         coroutineScope.launch {
                             latestNotification?.let { notification ->
                                 geminiResponse = "[THINKING....]"
-                                geminiResponse = genEngine.generateFromPrompt(
-                                    createRiskAnalysisPrompt(
-                                        language = "arabic",
-                                        notification = notification
-                                    )
-                                )
+                                geminiResponse = riskAnalysisEngine.analyze(
+                                    language = "arabic",
+                                    notification = notification
+                                ).toString()
                                     .also(logger::log)
                             }
                         }

@@ -9,7 +9,7 @@ data class RiskAnalysisEngineResult(
     val reasons: List<String>, // Explanations for the decision
     val riskLevel: RiskLevel, // Overall risk assessment
     val suggestedActions: List<String>, // Recommendations for user actions
-    val sourceNotification: InterceptedNotification, // The original intercepted notification
+    val sourceContent: String? = null, // The original intercepted notification content
     val timestamp: LocalDateTime, // Timestamp of analysis
     val explanation: String, // AI-generated human-friendly explanation
     val keywords: List<String>, // Key spam indicators
