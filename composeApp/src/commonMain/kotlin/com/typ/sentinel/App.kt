@@ -88,7 +88,6 @@ fun App() {
                 ) {
                     Text("Analyze notification")
                 }
-
             }
         }
     }
