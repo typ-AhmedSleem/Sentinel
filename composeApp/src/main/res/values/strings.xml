@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_desc">AI guardian watching over your financial safety.</string>
+    <string name="shield_enabled">Sentinel Shield\nis online</string>
+    <string name="shield_disabled">Sentinel Shield\nis offline</string>
+    <string name="chat_bot">ChatBot</string>
+    <string name="lists">Lists</string>
+    <string name="settings">Settings</string>
+    <string name="history">History</string>
+</resources>
