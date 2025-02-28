@@ -8,8 +8,8 @@ import com.typ.sentinel.support.appContext
 import com.typ.sentinel.systems.sls.ListType
 import com.typ.sentinel.systems.sls.ListedSender
 
-actual fun getDatabase(): SendersListingDatabase {
-    return SendersListingDatabase.getInstance(appContext!!)
+internal actual fun getSendersListingDatabase(): ListedSenderDao {
+    return SendersListingDatabase.getInstance(appContext!!).listedSenderDao()
 }
 
 @Database(
@@ -32,7 +32,9 @@ abstract class SendersListingDatabase : RoomDatabase() {
                     context.applicationContext,
                     SendersListingDatabase::class.java,
                     "senders_listing_database"
-                ).build()
+                )
+                    .allowMainThreadQueries()
+                    .build()
                 INSTANCE = instance
                 instance
             }

@@ -23,6 +23,9 @@ import com.typ.sentinel.systems.ai.engines.GenerativeEngine
 import com.typ.sentinel.systems.nis.InterceptedNotification
 import com.typ.sentinel.systems.nis.NotificationsInterceptor
 import com.typ.sentinel.systems.rae.GeminiRiskAnalysisEngine
+import com.typ.sentinel.systems.sls.ListType.BLACKLIST
+import com.typ.sentinel.systems.sls.ListType.WHITELIST
+import com.typ.sentinel.systems.sls.SendersListingManager
 import io.github.alexzhirkevich.cupertino.CupertinoButton
 import io.github.alexzhirkevich.cupertino.CupertinoHorizontalDivider
 import io.github.alexzhirkevich.cupertino.CupertinoScaffold
@@ -38,12 +41,29 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     val logger = Logger("App")
-    val riskAnalysisEngine = GeminiRiskAnalysisEngine(GenerativeEngine())
     val coroutineScope = rememberCoroutineScope()
+    val riskAnalysisEngine = GeminiRiskAnalysisEngine(GenerativeEngine())
+    val listingManager = remember { SendersListingManager() }
     var latestNotification: InterceptedNotification? by remember { mutableStateOf(null) }
     LaunchedEffect(Unit) {
         NotificationsInterceptor.notifications.collectLatest {
             latestNotification = it
+        }
+
+        // * Test listing database
+        listingManager.getWhitelisted().also {
+            logger.log("Whitelisted: $it")
+        }
+        listingManager.getBlacklisted().also {
+            logger.log("Blacklisted: $it")
+        }
+        listingManager.whitelistSender("Sleem")
+        listingManager.blockSender("Bank-3oda")
+        listingManager.getWhitelisted().also {
+            logger.log("Whitelisted again: $it")
+        }
+        listingManager.getBlacklisted().also {
+            logger.log("Blacklisted again: $it")
         }
     }
 

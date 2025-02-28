@@ -3,11 +3,11 @@ package com.typ.sentinel.systems.sls.db
 import com.typ.sentinel.systems.sls.ListType
 import com.typ.sentinel.systems.sls.ListedSender
 
-actual fun getDatabase(): SendersListingDatabase {
-    return SendersListingDatabaseImpl()
+internal actual fun getSendersListingDatabase(): ListedSenderDao {
+    return ListedSenderDaoImpl()
 }
 
-class SendersListingDatabaseImpl : SendersListingDatabase {
+class ListedSenderDaoImpl : ListedSenderDao {
     override suspend fun getSendersByType(type: ListType): List<ListedSender> {
         TODO("Not yet implemented")
     }
