@@ -15,7 +15,7 @@ object UserControlSystem {
     fun getSettings(): UserControlSettings {
         return UserControlSettings(
             isSentinelShieldEnabled = preferences[KEYSentinelShieldEnabled, true],
-            riskSensitivityLevel = preferences[KEYRiskSensitivityLevel, 3],
+            riskSensitivityLevel = preferences[KEYRiskSensitivityLevel, 2],
             autoBlockHighRisk = preferences[KEYAutoBlockHighRisk, true],
             aiSuggestActionsEnabled = preferences[KEYAiSuggestActionsEnabled, true]
         )
