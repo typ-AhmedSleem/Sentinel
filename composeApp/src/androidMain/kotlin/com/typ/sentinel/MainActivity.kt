@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         // * Start the service
-        NotificationInterceptorService.startService(this)
+        NotificationInterceptorService.startService()
 
         setContent {
             App()

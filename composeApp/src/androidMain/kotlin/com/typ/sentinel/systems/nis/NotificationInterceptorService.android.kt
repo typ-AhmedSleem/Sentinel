@@ -6,6 +6,7 @@ import android.content.Intent
 import android.provider.Settings
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
+import com.typ.sentinel.support.appContext
 
 actual class NotificationInterceptorService : NotificationListenerService() {
 
@@ -27,10 +28,8 @@ actual class NotificationInterceptorService : NotificationListenerService() {
     actual companion object {
         actual fun startService() {
             // todo: Get context
+            val context = appContext ?: return
             // todo: start the service
-        }
-
-        fun startService(context: Context) {
             val componentName = ComponentName(context, NotificationInterceptorService::class.java)
             val enabledListeners = Settings.Secure.getString(context.contentResolver, "enabled_notification_listeners")
             if (enabledListeners?.contains(componentName.flattenToString()) == false) {
