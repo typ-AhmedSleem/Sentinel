@@ -8,6 +8,11 @@ internal actual fun getSendersListingDatabase(): ListedSenderDao {
 }
 
 class ListedSenderDaoImpl : ListedSenderDao {
+
+    override suspend fun getAllSenders(): List<ListedSender> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getSendersByType(type: ListType): List<ListedSender> {
         TODO("Not yet implemented")
     }

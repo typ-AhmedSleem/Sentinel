@@ -11,6 +11,9 @@ import com.typ.sentinel.systems.sls.ListedSender
 @Dao
 interface ListedSenderDao {
 
+    @Query("SELECT * FROM listed_senders")
+    suspend fun getAllSenders(): List<ListedSender>
+
     @Query("SELECT * FROM listed_senders WHERE type = :type")
     suspend fun getSendersByType(type: ListType): List<ListedSender>
 

@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastFirstOrNull
 import com.typ.sentinel.systems.ai.engines.GenerativeEngine
 import com.typ.sentinel.systems.nis.InterceptedNotification
 import com.typ.sentinel.systems.nis.NotificationsInterceptor
@@ -35,6 +36,7 @@ import io.github.alexzhirkevich.cupertino.theme.CupertinoTheme
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlin.random.Random
 
 @OptIn(ExperimentalCupertinoApi::class)
 @Composable
@@ -46,10 +48,6 @@ fun App() {
     val listingManager = remember { SendersListingManager() }
     var latestNotification: InterceptedNotification? by remember { mutableStateOf(null) }
     LaunchedEffect(Unit) {
-        NotificationsInterceptor.notifications.collectLatest {
-            latestNotification = it
-        }
-
         // * Test listing database
         listingManager.getWhitelisted().also {
             logger.log("Whitelisted: $it")
@@ -57,13 +55,8 @@ fun App() {
         listingManager.getBlacklisted().also {
             logger.log("Blacklisted: $it")
         }
-        listingManager.whitelistSender("Sleem")
-        listingManager.blockSender("Bank-3oda")
-        listingManager.getWhitelisted().also {
-            logger.log("Whitelisted again: $it")
-        }
-        listingManager.getBlacklisted().also {
-            logger.log("Blacklisted again: $it")
+        NotificationsInterceptor.notifications.collectLatest {
+            latestNotification = it
         }
     }
 
@@ -96,12 +89,27 @@ fun App() {
                     onClick = {
                         coroutineScope.launch {
                             latestNotification?.let { notification ->
+                                geminiResponse = "[Checking if sender listing....]"
+                                // * Check if sender is blocklisted
+                                val listedSender = listingManager
+                                    .getAllSenders()
+                                    .fastFirstOrNull {
+                                        it.sender == notification.title
+                                    }
+
+                                if (listedSender != null) {
+                                    geminiResponse = when (listedSender.type) {
+                                        BLACKLIST -> "[SENDER IS BLOCKED]"
+                                        WHITELIST -> "[WHITE LISTED]"
+                                    }
+                                    return@launch
+                                }
+
                                 geminiResponse = "[THINKING....]"
                                 geminiResponse = riskAnalysisEngine.analyze(
                                     language = "arabic",
                                     notification = notification
-                                ).toString()
-                                    .also(logger::log)
+                                ).toString().also(logger::log)
                             }
                         }
                     },

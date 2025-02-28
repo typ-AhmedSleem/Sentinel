@@ -1,6 +1,5 @@
 package com.typ.sentinel.systems.rae
 
-import com.typ.sentinel.systems.nis.InterceptedNotification
 import kotlinx.datetime.LocalDateTime
 
 data class RiskAnalysisEngineResult(

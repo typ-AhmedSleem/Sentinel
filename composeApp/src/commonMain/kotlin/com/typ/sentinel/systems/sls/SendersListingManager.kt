@@ -6,6 +6,8 @@ import kotlinx.datetime.Clock
 
 class SendersListingManager(private val dao: ListedSenderDao = getSendersListingDatabase()) {
 
+    suspend fun getAllSenders(): List<ListedSender> = dao.getAllSenders()
+
     suspend fun getWhitelisted(): List<ListedSender> = dao.getSendersByType(ListType.WHITELIST)
 
     suspend fun getBlacklisted(): List<ListedSender> = dao.getSendersByType(ListType.BLACKLIST)
