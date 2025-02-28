@@ -15,7 +15,7 @@ private class SecureHistoryDaoImpl : SecureHistoryDao {
         TODO("Not yet implemented")
     }
 
-    override fun getAllEntries(): Flow<List<SecureHistoryEntry>> {
+    override suspend fun getAllEntries(): List<SecureHistoryEntry> {
         TODO("Not yet implemented")
     }
 
