@@ -40,6 +40,7 @@ import com.typ.sentinel.R
 import com.typ.sentinel.systems.nis.NotificationInterceptorService
 import com.typ.sentinel.systems.ucs.UserControlSettings
 import com.typ.sentinel.systems.ucs.UserControlSystem
+import com.typ.sentinel.ui.screens.HistoryScreen
 import io.github.alexzhirkevich.cupertino.CupertinoText
 import io.github.alexzhirkevich.cupertino.icons.CupertinoIcons
 import io.github.alexzhirkevich.cupertino.icons.outlined.Bookmark
@@ -110,7 +111,7 @@ actual object HomeScreen : Screen {
                     icon = CupertinoIcons.Outlined.Bookmark,
                     title = R.string.history
                 ) {
-
+                    navigator?.push(HistoryScreen)
                 }
                 Action(
                     icon = CupertinoIcons.Outlined.Message,
