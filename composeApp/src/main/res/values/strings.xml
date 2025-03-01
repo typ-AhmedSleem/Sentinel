@@ -9,4 +9,7 @@
     <string name="history">History</string>
     <string name="suspecious">"Suspecious: "</string>
     <string name="history_details">History Entry Details</string>
+    <string name="failed_to_send_message">Failed to send message</string>
+    <string name="cant_send_empty_msg">Can\'t send empty message</string>
+    <string name="type_a_message">Type a message...</string>
 </resources>

@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -40,6 +41,7 @@ import com.typ.sentinel.R
 import com.typ.sentinel.systems.nis.NotificationInterceptorService
 import com.typ.sentinel.systems.ucs.UserControlSettings
 import com.typ.sentinel.systems.ucs.UserControlSystem
+import com.typ.sentinel.ui.screens.ChatBotScreen
 import com.typ.sentinel.ui.screens.HistoryScreen
 import io.github.alexzhirkevich.cupertino.CupertinoText
 import io.github.alexzhirkevich.cupertino.icons.CupertinoIcons
@@ -58,14 +60,23 @@ actual object HomeScreen : Screen {
     @Composable
     override fun Content() {
         //  * Runtime * //
+        val ctx = LocalContext.current
         val navigator = LocalNavigator.current
         var userControlSettings by remember {
-            mutableStateOf(UserControlSystem.getSettings())
+            mutableStateOf(
+                UserControlSystem.getSettings()
+                    .copy(
+                        isSentinelShieldEnabled = NotificationInterceptorService.isServiceRunning(ctx)
+                    )
+            )
         }
 
         ObserveLifecycle {
             if (it == Lifecycle.Event.ON_RESUME) {
                 userControlSettings = UserControlSystem.getSettings()
+                    .copy(
+                        isSentinelShieldEnabled = NotificationInterceptorService.isServiceRunning(ctx)
+                    )
             }
         }
         // * UI * //
@@ -79,7 +90,7 @@ actual object HomeScreen : Screen {
                 modifier = Modifier
                     .size(64.dp)
                     .clip(RoundedCornerShape(25)),
-                painter = painterResource(id = R.drawable.ic_launcher_background),
+                painter = painterResource(id = R.drawable.app_icon),
             )
             Spacer(Modifier.height(32.dp))
             CupertinoText(
@@ -117,7 +128,7 @@ actual object HomeScreen : Screen {
                     icon = CupertinoIcons.Outlined.Message,
                     title = R.string.chat_bot
                 ) {
-
+                    navigator?.push(ChatBotScreen)
                 }
             }
 
